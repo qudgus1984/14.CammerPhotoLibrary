@@ -86,6 +86,36 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         }
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let mediaType = info[UIImagePickerController.InfoKey.mediaType]
+                as! NSString
+        
+        if mediaType.isEqual(to: "public.image" as String) {
+            captureImage = info[UIImagePickerController.InfoKey.originalImage]
+                as? UIImage
+            
+            if flagImageSave {
+                UIImageWriteToSavedPhotosAlbum(captureImage, self, nil, nil)
+            }
+            
+            imgView.image = captureImage
+        }
+        else if mediaType.isEqual(to: "public.movie" as String) {
+            if flagImageSave {
+                videoURL = (info[UIImagePickerController.InfoKey.mediaURL]
+                    as! URL)
+                
+                UISaveVideoAtPathToSavedPhotosAlbum(videoURL.relativePath, self, nil, nil)
+            }
+        }
+        
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     func myAlert(_ title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
         let action = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
