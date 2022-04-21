@@ -8,8 +8,13 @@
 import UIKit
 import MobileCoreServices
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     @IBOutlet var imgView: UIImageView!
+    
+    let imagePicker: UIImagePickerController = UIImagePickerController() // UIImamge..의 인스턴스 변수 생성
+    var captureImage: UIImage! // 촬영을 하거나 포토 라이브러리에서 불러온 사진을 저장할 변수
+    var videoURL: URL! // 녹화한 비디오의 URL을 저장할 변수
+    var flagImageSave = false // 이미지 저장 여부를 나타낼 변수
     
     override func viewDidLoad() {
         super.viewDidLoad()
