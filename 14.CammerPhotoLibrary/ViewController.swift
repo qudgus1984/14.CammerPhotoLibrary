@@ -36,8 +36,23 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
             // 카메라를 사용할 수 없을 때 경고 창을 나타냄
         }
     }
+    
     @IBAction func btnLoadImageFromLibrary(_ sender: UIButton) {
+        if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)) {
+            flagImageSave = false
+            
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.mediaTypes = ["public.image"]
+            imagePicker.allowsEditing = true
+            
+            present(imagePicker, animated: true, completion: nil)
+        }
+        else {
+            myAlert("Photo album inaccessable", message: "Application cannot access the photo album.")
+        }
     }
+    
     @IBAction func btnRecordVideoFromCamera(_ sender: UIButton) {
     }
     @IBAction func btnLoadVideoFromLibrary(_ sender: UIButton) {
