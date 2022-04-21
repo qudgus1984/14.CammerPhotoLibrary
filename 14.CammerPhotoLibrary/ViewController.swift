@@ -21,6 +21,20 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         // Do any additional setup after loading the view.
     }
     @IBAction func btnCaptureImageFromCamera(_ sender: UIButton) {
+        if (UIImagePickerController.isSourceTypeAvailable(.camera)) { // 카메라 사용 가능 여부 확인.
+            flagImageSave = true // 카메라 촬영 후 저장할 것이기 때문에 이미지 저장 허용
+            
+            imagePicker.delegate = self // 이미지 피커의 델리게이트를 self로 설정
+            imagePicker.sourceType = .camera // 이미지 피커의 소스 타입을 camera로 설정
+            imagePicker.mediaTypes = ["Public.image"] // 미디어 타입은 "public.image"로 설정
+            imagePicker.allowsEditing = false // 편집 허용하지 않음
+            
+            present(imagePicker, animated: true, completion: nil) // 현재 뷰 컨트롤러를 imagePicker로 대체
+        }
+        else {
+            myAlert("Camera inaccessable", message: "Application cannot access the camera.")
+            // 카메라를 사용할 수 없을 때 경고 창을 나타냄
+        }
     }
     @IBAction func btnLoadImageFromLibrary(_ sender: UIButton) {
     }
