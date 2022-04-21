@@ -54,8 +54,36 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     }
     
     @IBAction func btnRecordVideoFromCamera(_ sender: UIButton) {
+        if(UIImagePickerController.isSourceTypeAvailable(.camera)) {
+            flagImageSave = true
+            
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            imagePicker.mediaTypes = ["public.movie"]
+            imagePicker.allowsEditing = false
+            
+            present(imagePicker, animated: true, completion: nil)
+        }
+        else {
+            myAlert("Camera inaccessable", message: "Application cannot access the photo album.")
+
+        }
     }
+    
     @IBAction func btnLoadVideoFromLibrary(_ sender: UIButton) {
+        if (UIImagePickerController.isSourceTypeAvailable(.photoLibrary)) {
+            flagImageSave = false
+            
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.mediaTypes = ["public.movie"]
+            imagePicker.allowsEditing = false
+            
+            present(imagePicker, animated: true, completion: nil)
+        }
+        else {
+            myAlert("Photo album inaccessable", message: "Application cannot access the photo album.")
+        }
     }
     
     func myAlert(_ title: String, message: String) {
